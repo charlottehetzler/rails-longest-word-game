@@ -9,13 +9,15 @@ class GamesController < ApplicationController
   end
 
   def score
+    @points = 0
     @word = params[:word]
     @grid = params[:grid].split
     url = "https://wagon-dictionary.herokuapp.com/#{@word}"
     user_seralized = open(url).read
     user = JSON.parse(user_seralized)
     if user["found"]
-      @answer = "Congratulations! #{@word} is a valid English word!"
+      @points += @word.length
+      @answer = "Congratulations! #{@word} is a valid English word! Your earned #{@points} points!"
     else
       @answer = "Sorry but #{@word} does not seem to be a valid English word"
     end
